@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout kode
         uses: actions/checkout@v5
 
       - name: Setup Java 21
@@ -24,18 +24,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Cari pom.xml & Build
+      - name: Masuk folder IntroJoinServer & Build
         run: |
-          POM=$(find . -name pom.xml | head -n 1)
-          if [ -z "$POM" ]; then
-            echo "::error::pom.xml tidak ditemukan!"
-            exit 1
-          fi
-          cd "$(dirname "$POM")"
+          cd IntroJoinServer
           mvn clean package
 
-      - name: Upload jar
+      - name: Upload file .jar
         uses: actions/upload-artifact@v4
         with:
-          name: ZentraIntro
-          path: '**/target/*.jar'
+          name: IntroJoin
+          path: IntroJoinServer/target/*.jar
