@@ -1,0 +1,82 @@
+# ZentraIntro v2 - konfigurasi
+# Teks memakai format MiniMessage (https://docs.advntr.dev/minimessage/format.html)
+# Placeholder: %player% %server% %percent%
+
+enabled: true
+server-name: "ZentraSMP"
+
+spawn:
+  # Dijalankan oleh console. Kosongkan untuk tidak menjalankan perintah apa pun.
+  command: "spawn %player%"
+  # Jika perintah di atas tidak ada/gagal, teleport ke spawn world.
+  fallback-to-world-spawn: true
+  # Batas tunggu teleport selesai (tick, 20 tick = 1 detik)
+  max-wait-ticks: 30
+  # Jeda setelah teleport sebelum kamera mulai (tick)
+  after-teleport-delay-ticks: 10
+
+join:
+  # Jeda setelah join sebelum /spawn dijalankan (menunggu layar loading selesai)
+  delay-ticks: 40
+  # Tambahan jeda untuk pemain Bedrock (Geyser biasanya loading lebih lama)
+  bedrock-extra-delay-ticks: 30
+  # true = intro hanya untuk pemain yang baru pertama kali join
+  first-join-only: false
+  # Pemain dengan permission ini melewati intro (kosongkan untuk mematikan)
+  # Catatan: staff dengan permission "*" juga ikut melewati.
+  bypass-permission: "zentraintro.bypass"
+  # Blokir perintah selama intro berjalan
+  block-commands: true
+
+camera:
+  # Jarak (blok) dari titik spawn ke pusat orbit, searah hadap spawn.
+  # Pusat orbit = titik yang dikelilingi kamera (mis. tengah lobby).
+  orbit-distance: 12.0
+  # Pemain Bedrock: 1 = kamera diperbarui tiap tick. Naikkan ke 2 jika terasa patah.
+  bedrock-update-interval: 1
+  # Jalur kamera: "tick, radius, sudut(derajat), tinggi mata, tinggi titik tatapan"
+  # Tick dinormalisasi ke durasi intro, jadi aman jika durasi judul diubah.
+  # Baris pertama harus tick 0 (= titik spawn). Tinggi dihitung dari tanah spawn.
+  keyframes:
+    - "0,12,90,1.62,1.62"
+    - "80,10,160,4,5"
+    - "160,16,245,11,8"
+    - "240,28,300,24,6"
+    - "320,22,385,30,14"
+    - "390,8,470,70,400"
+
+sequence:
+  # Tiap langkah = 1 judul. Total durasi = jumlah ticks (default 390 tick = 19,5 detik).
+  steps:
+    - title: "<gradient:#00e5ff:#7c4dff><bold>%server%"
+      subtitle: "<gray>Selamat datang, <white>%player%"
+      ticks: 80
+    - title: "<gradient:#00e5ff:#7c4dff><bold>DUNIA BARU"
+      subtitle: "<gray>Bangun. Bertahan. Berkuasa."
+      ticks: 80
+    - title: "<gradient:#ffd54f:#ff7043><bold>KOMUNITAS"
+      subtitle: "<gray>Teman baru menunggumu di sini"
+      ticks: 80
+    - title: "<gradient:#69f0ae:#00bfa5><bold>PETUALANGAN"
+      subtitle: "<gray>Setiap hari ada hal seru"
+      ticks: 80
+    - title: "<gradient:#00e5ff:#7c4dff><bold>SIAP?"
+      subtitle: "<gray>Selamat bermain di <aqua>%server%"
+      ticks: 70
+  # Muncul saat layar masih gelap, sebelum lobby terlihat
+  end-title: "<gradient:#69f0ae:#00e5ff><bold>SELAMAT BERMAIN!"
+  end-subtitle: "<gray>Semoga betah di <aqua>%server%"
+  bar-text: "<aqua><bold>%server%</bold> <gray>» <white>Memuat dunia... <yellow>%percent%%"
+
+effects:
+  # Waktu di layar pemain berjalan cepat dari dini hari ke siang (hanya untuk pemain itu)
+  timelapse: true
+  time-start: 22000
+  time-end: 30000
+  fireworks: true
+  fantasy-particles: true
+  # Layar menggelap perlahan di akhir, lalu terang perlahan di lobby
+  fade-to-black: true
+  # Memakai efek Darkness vanilla untuk menggelapkan layar secara bertahap
+  darkness-effect: true
+  sounds: true
