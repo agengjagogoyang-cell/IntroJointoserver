@@ -1,0 +1,20 @@
+name: ZentraIntro
+version: 2.0.0
+main: id.zentrasmp.intro.ZentraIntro
+api-version: "1.21"
+description: Intro sinematik ZentraSMP - kamera terbang, judul, bossbar, kembang api, fade to black.
+authors: [ZentraSMP]
+website: https://zentrasmp.local
+softdepend: [Essentials, EssentialsSpawn, floodgate, Geyser-Spigot, Geyser-Paper, Geyser]
+commands:
+  zentraintro:
+    description: Kontrol intro ZentraSMP
+    usage: /<command> <play|stop|reload> [pemain]
+    aliases: [zintro]
+permissions:
+  zentraintro.admin:
+    description: Mengakses perintah /zentraintro
+    default: op
+  zentraintro.bypass:
+    description: Melewati intro saat join (untuk staff)
+    default: false
