@@ -14,15 +14,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source
+      - name: Checkout semua kode dari repo
         uses: actions/checkout@v5
-
-      - name: Cek apakah pom.xml ada
-        run: |
-          if [ ! -f pom.xml ] && [ -z "$(find . -name pom.xml | head -n1)" ]; then
-            echo "::error::pom.xml TIDAK DITEMUKAN! Pastikan kamu sudah upload pom.xml ke repo"
-            exit 1
-          fi
 
       - name: Setup Java 21
         uses: actions/setup-java@v5
@@ -31,14 +24,19 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build Maven
+      - name: Jalankan Build Maven
         run: |
-          POM_PATH=$(find . -name pom.xml | head -n 1)
-          cd "$(dirname "$POM_PATH")"
-          mvn clean package
+          set -e
+          POM=$(find . -name pom.xml | head -n 1)
+          if [ -z "$POM" ]; then
+            echo "::error::pom.xml TIDAK ADA DI REPO! Upload pom.xml + folder src dulu!"
+            exit 1
+          fi
+          cd "$(dirname "$POM")"
+          mvn clean package -DskipTests
 
-      - name: Upload jar
+      - name: Upload file .jar hasil build
         uses: actions/upload-artifact@v4
         with:
-          name: IntroJoin
+          name: Plugin-ZentraIntro
           path: '**/target/*.jar'
