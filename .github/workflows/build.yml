@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout kode
+      - name: Checkout source
         uses: actions/checkout@v5
 
       - name: Setup Java 21
@@ -24,13 +24,18 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Masuk folder IntroJoinServer & Build
+      - name: Cari folder yang ada pom.xml lalu build
         run: |
-          cd IntroJoinServer
+          POM_PATH=$(find . -name pom.xml | head -n 1)
+          if [ -z "$POM_PATH" ]; then
+            echo "::error::pom.xml TIDAK DITEMUKAN di repo!"
+            exit 1
+          fi
+          cd "$(dirname "$POM_PATH")"
           mvn clean package
 
-      - name: Upload file .jar
+      - name: Upload file jar
         uses: actions/upload-artifact@v4
         with:
           name: IntroJoin
-          path: IntroJoinServer/target/*.jar
+          path: '**/target/*.jar'
